@@ -1,4 +1,4 @@
-//4:1 Testbench
+//1:4 Testbench
 module testbench;
     reg [1:0] in;
     reg [3:0] sel;
