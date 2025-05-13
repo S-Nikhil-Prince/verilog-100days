@@ -1,0 +1,12 @@
+# KERNEL: rst=0,clk=0,j=0,k=1,q=x
+# KERNEL: rst=0,clk=1,j=0,k=1,q=0
+# KERNEL: rst=1,clk=0,j=1,k=0,q=0
+# KERNEL: rst=1,clk=1,j=1,k=0,q=1
+# KERNEL: rst=1,clk=0,j=0,k=0,q=1
+# KERNEL: rst=1,clk=1,j=0,k=0,q=1
+# KERNEL: rst=1,clk=0,j=0,k=1,q=1
+# KERNEL: rst=1,clk=1,j=0,k=1,q=0
+# KERNEL: rst=1,clk=0,j=1,k=0,q=0
+# KERNEL: rst=1,clk=1,j=1,k=0,q=1
+# KERNEL: rst=1,clk=0,j=1,k=1,q=1
+# KERNEL: rst=1,clk=1,j=1,k=1,q=x
