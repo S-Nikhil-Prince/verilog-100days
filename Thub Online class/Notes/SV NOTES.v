@@ -58,3 +58,63 @@ New operator in sv {inside}
         $display("a is not inside the range");
     end
 -------------------------------------------------------------------------------------------------
+Why is SV?
+ *SystemVerilog is an extension of Verilog that adds new features and capabilities to the language. It is designed to improve the design and verification of digital systems, making it easier to create complex designs and verify their correctness.
+ *It is both HDL(Hardware Description Language) and HDVL(Hardware Design Verification Language).
+ *It is effecient for Verification.
+ *code reusability is there.
+ *supports OOPS(Object Oriented Programming).
+ *SV gives Compact code.
+ *Contains User defined data types.
+What is the role of functional verification engineer?
+    *He verifies weather the function it was intended to perform is being performed without errors or Not.
+    *He Designs the testbench.
+What is the role of functional verification?
+    *to verify the functionality of the design.
+    *to verify the design against the specifications.
+--------------------------------------------------------------------------------------------------
+      |----------|         |----------|
+      |          |         |          |
+      |Testbench |-------> |   DUT    |
+      |          |    |    |          |
+      |          |    |    |          |
+      |----------|    |    |----------|
+                      |
+                Port Connection
+----------------------------------------------------------------------------------------------------------------
+SV TB Architecture:
+    *In SV TB all features are implementes as different components.
+    What every thing refers to?
+        *Stimulus generation.
+        *Driving the inpust to the {DUT.Driver\Bus Functional Model}.
+        *Monitoring desing input and output.{}
+        *Concuct different types of coverages.
+        *Predict the output.
+        *compare the real and expected output.
+        *Display the results.
+
+------------Block Digram of Archetecture of SV TB------------------------------------------------------------
+
+                               +-----------------+                     +-------------+     +-----------+
+                               | Reference Model |<- Expected output ->| Checker     | --> | Scoreboard|
+                               +-----------------+                     +-------------+     +-----------+
+                                     M ^                                  ^ 
+                                       |                                  |
+                                       |                                  |
+   + -----------+                +----------+             +-----------------+
+   | Functional |<----- M -----> | Monitor  |             |    Monitor      |
+   |  Coverage  |                |          |             |                 |
+   +------------+                +----------+             +-----------------+
+                     Expected output ^                         ^ Actual output
+                                     |                         |
+                                     |                         |
++------------+     +---------+     +-------------+     +-----+     +-------------+
+| Generator  | --> | Mail Box| --> | Driver/BFM  | --> | DUT | --> | Slave Model |
++------------+     +---------+     +-------------+     +-----+     +-------------+
+                                          |                |
+                                          |                |
+                                          v                v
+                                     +------------+      +-------------+
+                                     | Assertions |      | Assertions  |
+                                     +------------+      +-------------+
+
