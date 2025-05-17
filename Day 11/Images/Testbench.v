@@ -16,5 +16,3 @@ module fa_tb;
     a=1'b1;b=1'b1;c=1'b1;#10;
   end
 endmodule
-    
-    

@@ -73,6 +73,8 @@ What is the role of functional verification?
     *to verify the functionality of the design.
     *to verify the design against the specifications.
 --------------------------------------------------------------------------------------------------
+   Modular Testbench:
+    *SINCE IN SV DI
       |----------|         |----------|
       |          |         |          |
       |Testbench |-------> |   DUT    |
@@ -95,9 +97,9 @@ SV TB Architecture:
 
 ------------Block Digram of Archetecture of SV TB------------------------------------------------------------
 
-                               +-----------------+                     +-------------+     +-----------+
-                               | Reference Model |<- Expected output ->| Checker     | --> | Scoreboard|
-                               +-----------------+                     +-------------+     +-----------+
+                               +-----------------+                     +-------------+     +------------+
+                               | Reference Model |<- Expected output ->|   Checker   | --> | Scoreboard |
+                               +-----------------+                     +-------------+     +------------+
                                      M ^                                  ^ 
                                        |                                  |
                                        |                                  |
@@ -117,4 +119,7 @@ SV TB Architecture:
                                      +------------+      +-------------+
                                      | Assertions |      | Assertions  |
                                      +------------+      +-------------+
+--------------------------------------------------------------------------------------------------------------
+Data Types:
+    
 
