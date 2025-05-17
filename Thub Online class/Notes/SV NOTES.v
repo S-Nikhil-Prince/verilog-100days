@@ -120,6 +120,146 @@ SV TB Architecture:
                                      | Assertions |      | Assertions  |
                                      +------------+      +-------------+
 --------------------------------------------------------------------------------------------------------------
+============
 Data Types:
-    
-
+============
+    *Data types are used to define the type of data that can be stored in a variable.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    ------------Program for Size and default of data types-----------------
+****Format specifier to do so is %0d.
+****Format specifier to do so is %0d.
+-program-
+module tb;
+    bit a;
+    byte b;
+    shortint c;
+    int d;
+    longint e;
+    logic f;
+    integer g;
+    time h;
+    realtime i;
+    reg j;
+    initial
+     begin;
+      $display("Bit: 	  Size = %0d, Value = %0b", $bits(a),a);
+      $display("Byte: 	  Size = %0d, Value = %0b", $bits(b),b);
+      $display("Shortint: Size = %0d, Value = %0b", $bits(c),c);
+      $display("Int: 	  Size = %0d  Value = %0d", $bits(d),d);
+      $display("longint:  Size = %0d, Value = %0b", $bits(e),e);
+      $display("logic 	  Size = %0d, Value = %0b", $bits(f),f);
+      $display("Integer:  Size = %0d, Value = %0d", $bits(g),g);
+      $display("Time: 	  Size = %0d, Value = %0t", $bits(h),h);
+      $display("Realtime: Size = %0d, Value = %0f", $bits(i),i);
+      $display("Reg:	  Size = %0d, Value = %0b", $bits(j),j);
+    end
+endmodule
+---Output----
+================================================|
+# KERNEL: Bit: 	    Size = 1, Value = 0         |
+# KERNEL: Byte: 	Size = 8, Value = 0         |   
+# KERNEL: Shortint: Size = 16, Value = 0        |
+# KERNEL: Int: 	    Size = 32  Value = 0        |
+# KERNEL: longint:  Size = 64, Value = 0        |
+# KERNEL: logic 	Size = 1, Value = x         |
+# KERNEL: Integer:  Size = 32, Value = x        |
+# KERNEL: Time: 	Size = 64, Value = 0        |
+# KERNEL: Realtime: Size = 64, Value = 0.000000 |
+# KERNEL: Reg:	    Size = 1, Value = x         |       
+================================================|
+-----------------------------------------------------------------------------------------------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+-----------------------------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////
+Bit and byte:
+____________________________
+    *bit and Byte are Binary.
+    *Bit is unsigned, while byte is signed.
+module tb;
+    bit [7:0]a;
+    byte b;
+    initial begin
+        a=-50;
+        b=-50;
+        $display("Bit: %0b",a);
+        $display("Byte: %0b",b);
+        end
+    endmodule
+--------Output----------
+a=204; --- a=256-50=204
+b=-50; ---- b=-50;
+------------------------
+another case:
+------------------------
+module tb;
+    bit signed [7:0]a;
+    byte b;
+    initial begin
+        a=-50;
+        b=-50;
+        $display("Bit: %0b",a);
+        $display("Byte: %0b",b);
+        end
+    endmodule
+--------Output----------
+a=-50; ----- bit is converted to signed bit;
+b=-50;
+------------------------------------------------------------------------------------------------------------
+Int and Integer:
+    *Int is 2 state, while Integer is 4 state.
+____________________________
+module tb;
+    int a;
+    integer b;
+    initial begin
+        a=16'h10xz;
+        b=16'h10xz;
+        $display("Int: %0d",a);
+        $display("Integer: %0d",b);
+        end
+    endmodule
+--------Output------------------------
+a=1000;   ---- 2 state only 1 and 0;
+b=10xz;   ----- 4 state 1,0,x,z;
+--------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+----------------------------------------------------------------------------------------------------------
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+Time and Realtime:
+__________________
+`timescale 1ns/1ns;
+module tb;
+    time a;
+    realtime rt;
+    initial begin
+    #10.3;
+        t=$time;
+        rt=$realtime;
+        $display("Time: %0t",a);
+        $display("Realtime: %0f",b);
+        end
+    endmodule
+--------Output----------
+time=10;
+realtime=10.00000;
+-------------------------
+another case:
+-------------------------
+`timescale 1ns/1ps
+module tb;
+    time a;
+    realtime rt;
+    initial begin
+        #10.3;
+        a=$time;
+        rt=$realtime;
+        $display("Time: %0t",a);
+        $display("Realtime: %0f",b);
+        end
+    endmodule
+--------Output----------
+time=10;
+realtime=10.30000;
+--------------------------------------------------------------------
+--------------------------------------------------------------------
