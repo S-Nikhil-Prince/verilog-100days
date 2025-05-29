@@ -222,11 +222,9 @@ module tb;
 --------Output------------------------
 a=1000;   ---- 2 state only 1 and 0;
 b=10xz;   ----- 4 state 1,0,x,z;
---------------------------------------
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ----------------------------------------------------------------------------------------------------------
-\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-Time and Realtime:
+
+------ Time and Realtime:
 __________________
 `timescale 1ns/1ns;
 module tb;
@@ -262,4 +260,161 @@ module tb;
 time=10;
 realtime=10.30000;
 --------------------------------------------------------------------
---------------------------------------------------------------------
+
+27/05/2025
+** INTERPROCESS SYNCHRONIZATION \\
+    *Interprocess synchronization is a mechanism that allows multiple processes to coordinate their execution and share resources.
+    *It is used to ensure that processes do not interfere with each other and can work together effectively.
+    *In SystemVerilog, interprocess synchronization can be achieved using semaphores, mailboxes, and events.
+    *These constructs allow processes to communicate and synchronize their actions, ensuring that they operate correctly in a concurrent environment.
+
+**What is a process.
+    *A process is a sequence of statements that execute in a specific order.
+    *In SystemVerilog, processes are typically defined using the `always` or `initial` blocks.
+
+SV defines the following states of aprocess:
+    finished
+    running
+    suspended
+    killed/terminated
+example:
+```systemverilog
+initail begin
+   begin:p1//process 1
+         //process 1 statements
+    end:p1
+    begin:p2//process 2
+            //process 2 statements
+     end:p2
+end
+
+
+---------------------------------------------------------------------------------
+**SV TB Architecture:**
+    *The SystemVerilog Testbench (SV TB) architecture is a structured approach to designing testbenches for verifying digital designs.
+    *It consists of several components that work together to generate stimuli, drive inputs to the Design Under Test (DUT), monitor outputs, and check functionality.
+    *The main components of the SV TB architecture include:
+        - Generator
+        - BFM (Bus Functional Model) / Driver
+        - Monitor
+        - Coverage Block
+        - Reference Model
+        - Checker
+    **These components interact through a mailbox or communication channel to facilitate the flow of data and control signals**
+
+To Generator:
+    Generate Scenario/ Stimulus / Test Vectors/ Transactions.
+    Give Those Scenarios / Transaction to the BFM / Drive Through Mailbox.
+    Get the Response transaction from the Driver / Bfm if needed.
+
+BFM / Driver:
+    Get the Transaction from the Generator through Mailbox
+    Drives Those Transactions to the DUT through interterface.
+    Collect the Response from the DUT through intrerface.
+    Give the Resonse back to the Generator.
+
+Monitor:
+    Monitors the Interface Transactions.
+    Collect the Transaction when transfer is Valid.
+    Give the Transactions to the Functional Coverage and Reference Model.
+
+Coverage Block:
+    Gets Transaction from Manitor.
+    Trigger the Covergruop sampling whenever transaction Completed.
+
+Reference Model:
+    Get the Transaction from the Monitor.
+    Update the Register Model with Recent transaction from the monitor
+    Use the Register Model Programming get the Expected output.
+    Prove the Expected Output to the Checker.
+
+Checker:
+    Get the Expected Output From the Reference model.
+    Get the Actual output from Design interface Monitor.
+Compare Transactions from the reference model and Monitor
+-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+Q. BFM can not Drive a transaction unless Generator gives the Transaction ?
+    Ans: This is called Process Dependency.
+
+Q. BFM Can't proceed unless Generator gives the Transaction ?
+    Ans: There is a need of Synchronization between the Generator and BFM.
+        *** For this kind of Synchronization we use Mailbox.
+
+Mailbox: (Generator and BFM) / (Monitor and Scoreboard)
+    => Mailbox is Dynamic Construct. Hence it needs New() for memory allocation.
+    => Mailbox memory can be increased / Decreased / Delete at Run time.
+    => Mailbox behaviour is similar to FIFO.
+    => Mailbox Brings Blocking Nature in between the Communicating Devices (Generator and BFM).
+Q. Why Queue can't be used for Connecting Generator and BFM.
+    Ans: Queue is also a FIFO.
+    => But Queue is not a Blocking Construct.
+
+*so Mailbox is used for communication between Generator and BFM.
+    Mailbox is Unidirectiional.
+
+--Mailbox Types:__
+    1.Blocking Mailbox:
+        -> {put(),get(),peek()}--> Tasks [These are executed at non zero time ]
+
+    2.Non Blocking Mailbox:
+        -> {try_put(),try_get(),try_peek()}--> Functions [These are executed at zero time]
+
+--> get()---> wait until data is available and get data drom the mailbox.
+--> put()---> wait until space is available and put data into the mailbox.
+--> peek()---> wait until data is available and get data from the mailbox without removing it.
+
+--> try_get()---> dosent wait until data is available and returns null if no data is available.
+--> try_put()---> dosent wait until space is available and returns 0 if no space is available.
+--> try_peek()---> dosent wait until data is available and returns null if no data is available
+         
+    ---> try() functions are used to avoid blocking nature of mailbox.
+            *These functions return 0 or null if the operation cannot be completed immediately.
+            *They are useful when you want to check the status of the mailbox without blocking the execution of your code.
+
+**********
+    1.Gneric Mailbox:
+        *It can get or put any type of data.
+        *It is created using the `new()` method without any type parameter.
+          Syntax:
+                mailbox <mailbox name>;
+        *Example:
+            mailbox m = new();
+            m.put(42); // Putting an integer
+            m.put("Hello"); // Putting a string
+            int data = m.get(); // Getting data from the mailbox
+
+    2.Parametric Mailbox:
+        *It can get or put only a specific type of data.
+        *It is created using the `new()` method with a type parameter.
+         Syntax:
+                mail box #<data type> <name> = new();
+        *Example:
+            mailbox #int m = new(); // Typed mailbox for integers
+            m.put(42); // Putting an integer
+            int data = m.get(); // Getting data from the mailbox
+            // m.put("Hello"); // This will cause a compile-time error
+*********
+--based on size--
+
+    1.Bounded Mailbox:
+        *It has a fixed size and can hold a limited number of messages.
+        *It is created using the `new()` method with a size parameter.
+          Syntax:
+                mailbox #<data type> <name> = new(<size>);
+        *Example:
+            mailbox #int m = new(10); // Bounded mailbox for integers with size 10
+            m.put(42); // Putting an integer
+            int data = m.get(); // Getting data from the mailbox
+            // If the mailbox is full, put() will block until space is available
+
+    2.Unbounded Mailbox:
+        *It can grow dynamically and has no fixed size.
+        *It is created using the `new()` method without a size parameter.
+          Syntax:
+                mailbox #<data type> <name> = new();
+        *Example:
+            mailbox #int m = new(); // Unbounded mailbox for integers
+            m.put(42); // Putting an integer
+            int data = m.get(); // Getting data from the mailbox
+            // The mailbox can grow as needed
