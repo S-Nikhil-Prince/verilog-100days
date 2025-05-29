@@ -418,3 +418,4 @@ Q. Why Queue can't be used for Connecting Generator and BFM.
             m.put(42); // Putting an integer
             int data = m.get(); // Getting data from the mailbox
             // The mailbox can grow as needed
+//this is typed in my mobile. just checking😜
