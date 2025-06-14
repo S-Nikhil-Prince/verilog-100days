@@ -419,3 +419,233 @@ Q. Why Queue can't be used for Connecting Generator and BFM.
             int data = m.get(); // Getting data from the mailbox
             // The mailbox can grow as needed
 //this is typed in my mobile. just checking😜
+/////////////////////////////////////////////////////////////////////////////////////////////
+120625
+//////////////////////////////////////////////////////////////////////////////////////////////
+UART :
+Universal Asynchronous Receiver Transmitter (UART) is a hardware communication protocol used for serial communication between devices. It allows for asynchronous data transmission, meaning that data can be sent and received without the need for a clock signal. UART is commonly used in embedded systems, microcontrollers, and communication interfaces.
+UART: Supports Serial Communication
+TV Remote to TV Connection
+      TV Remote                                    TV
+┌─────────────────────┐                    ┌─────────────────────┐
+│                     │                    │                     │
+│  [CHIP]  │ [UART]   │ ═══ Serial Data ═══│ [UART] │ [Processor]│
+│          │ [Txer]   │                    │ [Rxer] │            │
+│          │          │                    │        │            │
+└─────────────────────┘                    └─────────────────────┘
+    
+    From Chip to UART Txer Data can be Transmitted in Parallel
+
+Parallel to Serial Conversion
+
+Parallel Data                                          Serial Data
+
+                 ┌───────────────┐                    ┌───────────────┐    
+Parallel Data ==>│               │ ═══ Serial Data ═══│               │
+                 │   UART Txer   │                    │   UART Rxer   │
+                 │               │                    │               │
+                 └───────────────┘                    └───────────────┘
+                                                              ║
+                                                              ║ ═══════════
+                                                              ║ ═══════════
+                                                              ║ ═══════════
+                                                              ║ ═══════════
+                                                              ▼
+                                                         Parallel Data
+Mostly 9600 baud rate is used in UART communication.
+the maximum baud rate is 2764800.
+----> UART always contains baud rate.
+    
+     Parity Bit : Is used to detect errors in data transmission.
+    *Parity bit is an extra bit added to a binary data to make the number of 1's either even or odd.
+
+     ----> 8 Bit Data : 1000_1001
+        ==>Data Contains odd number of 1's then the parity is called Odd Parity.
+        ==>Data Contains even number of 1's then the parity is called Even Parity.
+    --->In the abouve data 3 1's are there so the parity is Odd Parity.
+    --->Whenever the data with odd parity then the parity bit is 1.
+    --->1000_1001 = 0100_1001
+=======================================================-=-=-=-=-=-=-=-=--=-=-=
+ Here's the text from the image:
+
+Interview Questions on UART:
+
+Q1. What are the Different pins of the Simple UART and List them?
+- Transmitter and REciver 
+     in practical 
+       *UART Tx :
+        --->Clock and Reset,Newd(1 Bit),din_tx[7:0]==> input
+        --->tx(1 bit),tx_done                      ==> output
+       *UART Rx :
+        --->Clock ,reset and Rx                    ==> input
+        --->rx_dout,done                           ==> output
+
+Q2. What are the Application of UART?
+- it is basically serial interface short distance communication.
+- Commonly used in *Bluetooth * Wifi *GPS *GSM *Modem *RS232 *RS485 *RS422
+
+Q3. Define Bit rate and Baud Rate?
+- Bit Rate: The number of bits transmitted per second in a communication channel.
+- Baud Rate: The number of bits transmitted per second including parity bits ,satrt,stop..
+   > In UART, baud rate is often equal to bit rate, but it can differ in other communication protocols where multiple bits are encoded in a single symbol.
+
+Q4. What is the Significance of baud Rate in UART?
+- Baud rate : 9600 (It means that 9600 bits are transmitted per second).
+  Baud rate : 2400 (It means that 2400 bits are transmitted per second).
+Baud rate is significant in UART because it determines the speed of data transmission between devices.
+           A higher baud rate allows for faster communication, but it also requires more precise timing and synchronization between the transmitter and receiver.
+          If the baud rate is too high for the devices to handle, it can lead to data loss or corruption. 
+
+Q5. Difference Between the Synchronous and Asynchronous Interface and where uart fits?
+- Synchronous Interface: 
+-Asynchronous Interface:
+
+Q6. What is the purpose of Start bit, Stop bit and Parity bits?
+- Start Bit: 
+  - The start bit signals the begi
+Q7. What is the use of UART FIFO?
+
+Q8. What is the Maximum Baud Rate value?
+
+Q9. What is the Condition for Idle State?
+
+Q10. How Does UART Transmitter Identifies new Data is Available?
+
+Q11. How Does Slave Comes to Know that Transmitter is Ready to Transmit
+
+Q12. What is the Size of the tx and What its Purpose?
+
+Q13. What are Reasons to get Errors in the Data Transfer?
+
+Q14. What are the Common Configurations used in UART?
+
+Q15. What is Software Control Flow and Hardware Control?
+
+Q16. Type of Communication Supported by the UART?
+
+Q17. Why UART is best Suitable for the Serial Communication?
+
+Q18. What is the Most Commonly Used Baud Rate in UART?
+
+Q19. What is the Significance / Importance of UART?
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+140625
+
+
+Here's the text from the image:
+
+I2C Protocol : Inter Integrated Circuit Protocol
+---> Designed by the Philips Semiconductor in 1982.
+---> Supports Multipoint Communication ( Between Multiple masters and Multiple Slaves)
+---> I2C Combains the features of UART and SPI
+---> I2C Is also Known as TWI ( Two Wired Interface )
+---> One Master will Connect with Multiple Slaves / Multiple Masters Control the Multiple Slaves.
+
+Q1. Is I2C is Serail Interface / Parallel Interface?
+Ans: Serial Interface
+
+Q2. I2C is Synchronous / Asynchronos Protocol ?
+Ans: Synchronous Protocol ( Both Master Slave Shares the Common Clock )
+
+Q3. Is I2C Supports 2 / 4 / 8 / 16 / 32 Data Transfer ?
+Ans: 8 Bit Data Transfer
+
+Q4. Is I2C Supports Simple / Half Duplex / Full Duplex ?
+Ans: Half Duplex Communication
+
+Q5. How Master will Control the Slave / Slaves ?
+Ans: Master will ContrL the SLave by using the line called S
+
+*** I2C Contains 2 wires:
+SCL ( Serial Clock): Serial Clock is Always Generated by the Master and it is given to the
+
+"=====Simple I2C Digram===="
+            
+            Master                                Slaves
+┌─────────────────────┐                   ┌─────────────────────┐
+│                     │                   │                     │      > It Has 2 wires.
+│            SCL      │ ----------------> │                     │      > SCL : Serial Clock.
+│                     │                   │                     │          │      > it is always generated by the master and given to the salve to control it ("Unidirectional").
+│            SDA      │ <------- -------> │                     │      > SDA : Serial Data.
+│                     │                   │                     │          |      > it is used to transfer the data between master and slave. ("Bidirectional").
+│_____________________│                   │_____________________|
+
+
+            __________________________________________
+           |          │                 │             │
+           | Header   │   Payload/Data  │ Footer      │   
+           |__________|_________________|_____________|
+
+ _____________________                     _____________________
+|                     │                   │                     │
+│     I2C Master      │ =============>    │    T2C Slave        │
+│                     │                   │                     │   
+└─────────────────────┘                   └─────────────────────┘
+    
+    Data = 1001_1010
+    Header=Sender Adresss
+    Footer=Reciver Address
+    Payload = Data
+[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[{{{{{{}}}}}}]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+Here's the information from the image, rewritten for clarity and conciseness:
+
+**I2C Packet Format:**
+
+* **Start Condition:** This is signaled by a high-to-low transition on the Serial Data Line (SDA) while the Serial Clock Line (SCL) is held high.
+* **Stop Condition:** This is signaled by a low-to-high transition on the SDA line while the SCL is held high.
+
+**Addressing:**
+
+I2C supports both 7-bit and 10-bit addressing modes.
+
+* An I2C address typically consists of:
+    * The 7-bit or 10-bit device address.
+    * A 1-bit Read/Write (R/W') bit, which indicates the desired operation:
+        * `R/W' = 1` for Read
+        * `R/W' = 0` for Write
+
+**Example 7-bit Address:**
+
+* `1111001`
+
+**8-bit Transmission Format (for 7-bit addressing):**
+
+When transmitting an address, it's typically combined with the R/W' bit to form an 8-bit byte.
+
+* `a7 a6 a5 a4 a3 a2 a1 a0` (This represents the 8-bit byte being transmitted)
+    * `a7 a6 a5 a4 a3 a2 a1` represents the 7-bit device address.
+    * `a0` represents the R/W' bit.
+    =====> (Adress(7Bit),R/W)={a7,a6,a5,a4,a3,a2,a1,a0}
+                             = {1,1,1,1,0,0,1,0} (Address=0)
+                             = {1,1,1,1,0,0,1,1} (Address=1)
+        
++-------------------+                                                                    +------------------+
+|      Master       |                                                                    |      Slave       |
++-------------------+                                                                    +------------------+
+
+            +-------+---------+-----+-----+----------+-----------+----------+-----------+-----+
+            | Start | Address | R/W | ACK | 8-bit   | ACK/NACK  | 8-bit    | ACK/NACK  | Stop|
+            | (1b)  | (7b)    |(1b) |/NACK|  Data   |  (1b)     |  Data    |  (1b)     |(1b) |
+            +-------+---------+-----+-----+----------+-----------+----------+-----------+-----+
+                |        |      |      |       |          |          |           |         |
+                |        |      |      |       |          |          |           |         |
+                V        V      V      V       V          V          V           V         V
+
+            Start  7-bit   R/W=1:Read   ACK=+ve    8-bit     ACK=+ve     8-bit      ACK=+ve   Stop
+            Cond.  Addr.   R/W=0:Write  NACK=-ve   Data      NACK=-ve    Data       NACK=-ve  Cond.
+
+            Legend:
+            Start Condition: SDA goes low while SCL is high
+            Stop Condition:  SDA goes high while SCL is high
+            ACK = Acknowledge (+ve)
+            NACK = Not Acknowledge (-ve)
+
+            SCL:  __|‾‾‾‾‾‾|_____
+            SDA:  ‾‾|_____|‾‾‾‾‾‾
+
+            (Start Condition: SDA falls while SCL is high)
+
+            SCL:  __|‾‾‾‾‾‾|_____
+            SDA:  __|‾‾‾‾‾‾|_____
+
+            (Stop Condition: SDA rises while SCL is high)
