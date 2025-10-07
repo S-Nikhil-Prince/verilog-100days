@@ -1,5 +1,9 @@
 //Design code
-module mux(input [7:0]i,input [3:0]s,output y);
+module mux(
+  input [7:0]i,
+  input [3:0]s,
+  output y
+  );
   always@(s or a) begin
     case(s)
       3'b000: y=a[0];
